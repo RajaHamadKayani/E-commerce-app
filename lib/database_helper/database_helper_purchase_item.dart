@@ -30,8 +30,16 @@ class DatabaseHelperPurchaseItem {
 
   void _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      await db.execute('ALTER TABLE Purchase ADD COLUMN quantity TEXT');
-      await db.execute('ALTER TABLE Purchase ADD COLUMN size TEXT');
+      await _addColumnIfNotExists(db, 'Purchase', 'quantity', 'TEXT');
+      await _addColumnIfNotExists(db, 'Purchase', 'size', 'TEXT');
+    }
+  }
+
+  Future<void> _addColumnIfNotExists(Database db, String tableName, String columnName, String columnType) async {
+    var result = await db.rawQuery('PRAGMA table_info($tableName)');
+    bool exists = result.any((column) => column['name'] == columnName);
+    if (!exists) {
+      await db.execute('ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
     }
   }
 
