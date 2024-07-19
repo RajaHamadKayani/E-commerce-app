@@ -2,11 +2,13 @@ import 'package:e_commerce/database_helper/database_helper_purchase_item.dart';
 import 'package:e_commerce/utils/constants.dart';
 import 'package:e_commerce/view_model/controllers/dashboard_controller.dart';
 import 'package:e_commerce/view_model/controllers/get_all_products_controller.dart';
+import 'package:e_commerce/views/widgets/drawer_widget.dart';
 import 'package:e_commerce/views/widgets/reusable_list_view_builder.dart';
 import 'package:e_commerce/views/widgets/reusable_list_view_dashboard.dart';
 import 'package:e_commerce/views/widgets/text_form_field_component.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +21,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  GlobalKey<ScaffoldState> globalKey=GlobalKey<ScaffoldState>();
   GetAllProductsController getAllProductsController=Get.put(GetAllProductsController());
   
   List<Map<String,dynamic>> purchaseItems=[];
@@ -47,6 +50,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: globalKey,
+      drawer: DrawerWidget(),
       backgroundColor: const Color(0xffF9F9F9),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -61,12 +66,17 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: FittedBox(
-                        fit: BoxFit.cover,
-                        child: SvgPicture.asset("assets/svgs/menu.svg"),
+                    GestureDetector(
+                      onTap: (){
+                        globalKey.currentState!.openDrawer();
+                      },
+                      child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SvgPicture.asset("assets/svgs/menu.svg"),
+                        ),
                       ),
                     ),
                     SizedBox(

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Constants {
   static const categoriesImages = [
     "assets/images/beauty.png",
@@ -97,4 +99,6 @@ class Constants {
   static const salePrice1 = ["₹650", "₹650"];
   static const saleOffPercentage1 = ["40%Off", "50%Off"];
   static const catgoriesNames = ["Beauty", "Fashion", "Kids", "Men", "Women"];
+  static const drawerTitle=["Dashboard", "WishList", "Shopping List"];
+  static const drawerIcons=[Icons.dashboard,Icons.favorite,Icons.shopping_bag];
 }

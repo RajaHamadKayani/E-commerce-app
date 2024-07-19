@@ -5,6 +5,7 @@ import 'package:e_commerce/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class ItemDetailPage extends StatefulWidget {
   var itemImage;
   var itemName;
