@@ -1,5 +1,6 @@
 import 'package:e_commerce/database_helper/database_helper.dart';
 import 'package:e_commerce/database_helper/database_helper_purchase_item.dart';
+import 'package:e_commerce/views/screens/add_to_purchase_screen.dart';
 import 'package:e_commerce/views/screens/bottom_nav_bar_screen.dart';
 import 'package:e_commerce/views/screens/dashboard.dart';
 import 'package:e_commerce/views/screens/splash_view_1.dart';
@@ -12,6 +13,7 @@ void main( ) {
   DatabaseHelper databaseHelper=DatabaseHelper();
   
   DatabaseHelperPurchaseItem databaseHelperPurchaseItem=DatabaseHelperPurchaseItem();
+  // databaseHelperPurchaseItem.deleteAllItems();
   runApp(const MyApp());
 }
 
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:const  SplashView1(),
+      home:const   Dashboard(),
     );
   }
 }

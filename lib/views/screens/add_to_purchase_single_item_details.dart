@@ -403,6 +403,8 @@ class _AddToPurchaseSingleItemDetailsState
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>  ProceedToPaymentScreen(
                              accountName: widget.accountName,
                                       accountNumber: widget.accountNumber,
+                                      selectedQuantity: selectedQuantity,
+                                      selectedSize: selectedSize,
                                       pincode: widget.pincode,
                                       itemDescription:widget.itemDescription,
                                       itemImage: widget.itemImage,

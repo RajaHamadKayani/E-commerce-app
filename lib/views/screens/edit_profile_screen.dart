@@ -1,6 +1,8 @@
 import 'package:e_commerce/database_helper/database_helper_purchase_item.dart';
 import 'package:e_commerce/views/screens/add_to_purchase_screen.dart';
 import 'package:e_commerce/view_model/controllers/edit_profile_controller.dart';
+import 'package:e_commerce/views/screens/add_to_purchase_single_item_details.dart';
+import 'package:e_commerce/views/widgets/proceed_to_payment_dialog_box.dart';
 import 'package:e_commerce/views/widgets/edit_profile_reusable_text_form_field.dart';
 import 'package:e_commerce/views/widgets/text_form_field_component.dart';
 import 'package:flutter/material.dart';
@@ -25,36 +27,36 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  DatabaseHelperPurchaseItem databaseHelperPurchaseItem =
-      DatabaseHelperPurchaseItem();
+  // DatabaseHelperPurchaseItem databaseHelperPurchaseItem =
+  //     DatabaseHelperPurchaseItem();
 
   EditProfileController editProfileController =
       Get.put(EditProfileController());
 
-  void addToPurchaseMethod() async {
-    Map<String, dynamic> addToPurchase = {
-      "name": editProfileController
-          .textEditingControllerAccountHolderName.value.text,
-      "address": editProfileController.textEditingControllerAddress.value.text,
-      "email": editProfileController.textEditingControllerEmail.value.text,
-      "ifsc": editProfileController.textEditingControllerIFSCCode.value.text,
-      "country": editProfileController.textEditingControllerCountry.value.text,
-      "state": editProfileController.textEditingControllerState.value.text,
-      "city": editProfileController.textEditingControllerCity.value.text,
-      "pincode": editProfileController.textEditingControllerPinCode.value.text,
-      "account": editProfileController
-          .textEditingControllerBankAccountNumber.value.text,
-      "image": widget.itemImage,
-      "price": widget.itemPrice,
-      "title": widget.itemName,
-      "description": widget.itemDescription,
-      "percent": widget.itemPercentOff
-    };
-    await databaseHelperPurchaseItem.saveItem(addToPurchase).then((value) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Item Saved")));
-    });
-  }
+  // void addToPurchaseMethod() async {
+  //   Map<String, dynamic> addToPurchase = {
+  //     "name": editProfileController
+  //         .textEditingControllerAccountHolderName.value.text,
+  //     "address": editProfileController.textEditingControllerAddress.value.text,
+  //     "email": editProfileController.textEditingControllerEmail.value.text,
+  //     "ifsc": editProfileController.textEditingControllerIFSCCode.value.text,
+  //     "country": editProfileController.textEditingControllerCountry.value.text,
+  //     "state": editProfileController.textEditingControllerState.value.text,
+  //     "city": editProfileController.textEditingControllerCity.value.text,
+  //     "pincode": editProfileController.textEditingControllerPinCode.value.text,
+  //     "account": editProfileController
+  //         .textEditingControllerBankAccountNumber.value.text,
+  //     "image": widget.itemImage,
+  //     "price": widget.itemPrice,
+  //     "title": widget.itemName,
+  //     "description": widget.itemDescription,
+  //     "percent": widget.itemPercentOff
+  //   };
+  //   await databaseHelperPurchaseItem.saveItem(addToPurchase).then((value) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text("Item Saved")));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -339,55 +341,119 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        addToPurchaseMethod();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddToPurchaseScreen(
-                                      accountName: editProfileController
-                                          .textEditingControllerAccountHolderName
-                                          .value
-                                          .text,
-                                      accountNumber: editProfileController
-                                          .textEditingControllerBankAccountNumber
-                                          .value
-                                          .text,
-                                      pincode: editProfileController
-                                          .textEditingControllerPinCode
-                                          .value
-                                          .text,
-                                      itemDescription: widget.itemDescription,
-                                      itemImage: widget.itemImage,
-                                      itemName: widget.itemName,
-                                      itemPercentOff: widget.itemPercentOff,
-                                      itemPrice: widget.itemPrice,
-                                      address: editProfileController
-                                          .textEditingControllerAddress
-                                          .value
-                                          .text,
-                                      ifsc: editProfileController
-                                          .textEditingControllerIFSCCode
-                                          .value
-                                          .text,
-                                      emailAddress: editProfileController
-                                          .textEditingControllerEmail
-                                          .value
-                                          .text,
-                                      state: editProfileController
-                                          .textEditingControllerState
-                                          .value
-                                          .text,
-                                      password: editProfileController
-                                          .textEditingControllerPassword
-                                          .value
-                                          .text,
-                                      country: editProfileController
-                                          .textEditingControllerCountry
-                                          .value
-                                          .text,
-                                      city: editProfileController
-                                          .textEditingControllerCity.value.text,
-                                    )));
+                        // addToPurchaseMethod();
+                        if (editProfileController.textEditingControllerAccountHolderName.value.text.isEmpty &&
+                            editProfileController.textEditingControllerAddress
+                                .value.text.isEmpty &&
+                            editProfileController
+                                .textEditingControllerBankAccountNumber
+                                .value
+                                .text
+                                .isEmpty &&
+                            editProfileController
+                                .textEditingControllerCity.value.text.isEmpty &&
+                            editProfileController.textEditingControllerCountry
+                                .value.text.isEmpty &&
+                            editProfileController.textEditingControllerEmail
+                                .value.text.isEmpty &&
+                            editProfileController.textEditingControllerIFSCCode
+                                .value.text.isEmpty &&
+                            editProfileController.textEditingControllerPassword
+                                .value.text.isEmpty &&
+                            editProfileController.textEditingControllerPinCode
+                                .value.text.isEmpty &&
+                            editProfileController.textEditingControllerState
+                                .value.text.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ProceedToPaymentDialogBox(
+                                    title: "All Feilds should be filled");
+                              });
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AddToPurchaseSingleItemDetails(
+                                        accountName: editProfileController
+                                            .textEditingControllerAccountHolderName
+                                            .value
+                                            .text,
+                                        accountNumber: editProfileController
+                                            .textEditingControllerBankAccountNumber
+                                            .value
+                                            .text,
+                                        pincode: editProfileController
+                                            .textEditingControllerPinCode
+                                            .value
+                                            .text,
+                                        itemDescription: widget.itemDescription,
+                                        itemImage: widget.itemImage,
+                                        itemName: widget.itemName,
+                                        itemPercentOff: widget.itemPercentOff,
+                                        itemPrice: widget.itemPrice,
+                                        address: editProfileController
+                                            .textEditingControllerAddress
+                                            .value
+                                            .text,
+                                        ifsc: editProfileController
+                                            .textEditingControllerIFSCCode
+                                            .value
+                                            .text,
+                                        emailAddress: editProfileController
+                                            .textEditingControllerEmail
+                                            .value
+                                            .text,
+                                        state: editProfileController
+                                            .textEditingControllerState
+                                            .value
+                                            .text,
+                                        password: editProfileController
+                                            .textEditingControllerPassword
+                                            .value
+                                            .text,
+                                        country: editProfileController
+                                            .textEditingControllerCountry
+                                            .value
+                                            .text,
+                                        city: editProfileController
+                                            .textEditingControllerCity
+                                            .value
+                                            .text,
+                                      ))).then((value) {
+                            editProfileController
+                                .textEditingControllerAccountHolderName.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerAddress.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerBankAccountNumber.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerCity.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerCountry.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerEmail.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerIFSCCode.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerPassword.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerPinCode.value
+                                .clear();
+                            editProfileController
+                                .textEditingControllerState.value
+                                .clear();
+                          });
+                        }
                       },
                       child: Container(
                         width: double.infinity,

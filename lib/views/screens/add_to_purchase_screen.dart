@@ -1,43 +1,14 @@
 import 'package:e_commerce/database_helper/database_helper_purchase_item.dart';
 import 'package:e_commerce/views/screens/add_to_purchase_single_item_details.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddToPurchaseScreen extends StatefulWidget {
-  var itemImage;
-  var itemName;
-  var itemDescription;
-  var itemPrice;
-  var itemPercentOff;
-  var emailAddress;
-  var password;
-  var pincode;
-  var address;
-  var city;
-  var state;
-  var country;
-  var accountNumber;
-  var accountName;
-  var ifsc;
-
-  AddToPurchaseScreen(
-      {super.key,
-      this.itemDescription,
-      this.accountName,
-      this.address,
-      this.city,
-      this.emailAddress,
-      this.password,
-      this.pincode,
-      this.ifsc,
-      this.state,
-      this.country,
-      this.accountNumber,
-      this.itemImage,
-      this.itemName,
-      this.itemPercentOff,
-      this.itemPrice});
+  AddToPurchaseScreen({
+    super.key,
+  });
   @override
   State<AddToPurchaseScreen> createState() => _AddToPurchaseScreenState();
 }
@@ -200,31 +171,43 @@ class _AddToPurchaseScreenState extends State<AddToPurchaseScreen> {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     itemBuilder: (context, index) {
+                      double value1 = double.parse(purchaseItemsList[index]
+                              ["price"]
+                          .replaceAll('₹', '')
+                          .trim());
+                      double value2 =
+                          double.parse(purchaseItemsList[index]["quantity"]);
+                          double sum=value1*value2;
+
+                      if (kDebugMode) {
+                        print(
+                            "Quantity ${purchaseItemsList[index]["quantity"]}");
+                      }
                       return Padding(
                         padding: EdgeInsets.only(bottom: 14),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddToPurchaseSingleItemDetails(
-                                           accountName: widget.accountName,
-                                      accountNumber: widget.accountNumber,
-                                      pincode: widget.pincode,
-                                      itemDescription: purchaseItemsList[index]["description"],
-                                      itemImage: purchaseItemsList[index]["image"],
-                                      itemName: purchaseItemsList[index]["title"],
-                                      itemPercentOff: purchaseItemsList[index]["percent"],
-                                      itemPrice: purchaseItemsList[index]["price"],
-                                      address: widget.address,
-                                      ifsc:widget.ifsc,
-                                      emailAddress:widget.emailAddress,
-                                      state: widget.state,
-                                      password: widget.password,
-                                      country: widget.country,
-                                      city:widget.city,
-                                        )));
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             AddToPurchaseSingleItemDetails(
+                            //                accountName: widget.accountName,
+                            //           accountNumber: widget.accountNumber,
+                            //           pincode: widget.pincode,
+                            //           itemDescription: purchaseItemsList[index]["description"],
+                            //           itemImage: purchaseItemsList[index]["image"],
+                            //           itemName: purchaseItemsList[index]["title"],
+                            //           itemPercentOff: purchaseItemsList[index]["percent"],
+                            //           itemPrice: purchaseItemsList[index]["price"],
+                            //           address: widget.address,
+                            //           ifsc:widget.ifsc,
+                            //           emailAddress:widget.emailAddress,
+                            //           state: widget.state,
+                            //           password: widget.password,
+                            //           country: widget.country,
+                            //           city:widget.city,
+                            //             )));
                           },
                           child: Container(
                             width: double.infinity,
@@ -414,14 +397,14 @@ class _AddToPurchaseScreenState extends State<AddToPurchaseScreen> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Total Order (1) :",
+                                        "Total Order (${purchaseItemsList[index]["quantity"]}) :",
                                         style: GoogleFonts.montserrat(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12),
                                       ),
                                       Text(
-                                        "${purchaseItemsList[index]["price"]}",
+                                        "₹ ${sum.toStringAsFixed(2)}",
                                         style: GoogleFonts.montserrat(
                                             color: Colors.black,
                                             fontWeight: FontWeight.w600,

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProceedToPaymentDialogBox extends StatefulWidget {
-  const ProceedToPaymentDialogBox({super.key});
+  final String title;
+  const ProceedToPaymentDialogBox({super.key,required this.title});
 
   @override
   State<ProceedToPaymentDialogBox> createState() => _ProceedToPaymentDialogBoxState();
@@ -29,7 +30,7 @@ class _ProceedToPaymentDialogBoxState extends State<ProceedToPaymentDialogBox> {
               height: 16,
             ),
             Text(
-              "Payment Done successfully",
+             widget.title,
               style: GoogleFonts.montserrat(
                   color: Colors.black,
                   fontWeight: FontWeight.w600,
@@ -44,7 +45,6 @@ class _ProceedToPaymentDialogBoxState extends State<ProceedToPaymentDialogBox> {
           child: GestureDetector(
             onTap: () {
               Navigator.pop(context);
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> BottomNavBarScreen()));
             },
             child: Container(
               width: 100,
@@ -70,3 +70,4 @@ class _ProceedToPaymentDialogBoxState extends State<ProceedToPaymentDialogBox> {
     );
   }
 }
+

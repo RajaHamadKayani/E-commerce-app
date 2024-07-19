@@ -19,13 +19,20 @@ class DatabaseHelperPurchaseItem {
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'purchase.db');
 
-    var db = await openDatabase(path, version: 1, onCreate: _onCreate);
+    var db = await openDatabase(path, version: 2, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
   }
 
   void _onCreate(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE Purchase(id INTEGER PRIMARY KEY, title TEXT, description TEXT, price TEXT, percent TEXT, image TEXT, email TEXT, pincode TEXT, address TEXT, city TEXT, state TEXT, country TEXT, account TEXT, name TEXT, ifsc TEXT)');
+        'CREATE TABLE Purchase(id INTEGER PRIMARY KEY, title TEXT, description TEXT, price TEXT, percent TEXT, image TEXT, email TEXT, pincode TEXT, address TEXT, city TEXT, state TEXT, country TEXT, account TEXT, name TEXT, ifsc TEXT, quantity TEXT, size TEXT)');
+  }
+
+  void _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE Purchase ADD COLUMN quantity TEXT');
+      await db.execute('ALTER TABLE Purchase ADD COLUMN size TEXT');
+    }
   }
 
   Future<int> saveItem(Map<String, dynamic> item) async {
